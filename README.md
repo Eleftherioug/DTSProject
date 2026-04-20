@@ -1,39 +1,55 @@
-# Final Project Draft: Breast Cancer Diagnosis Classification
+# Tottenham Hotspur Recruitment Fit Model
 
-This project is a draft machine learning analysis for classifying breast tumors as malignant or benign. The notebook includes data loading, exploratory data analysis, three engineered features, preprocessing, two classification models, a model comparison table, visualizations, and reflection on next steps.
+This project is a draft machine learning prototype for identifying football players who fit Tottenham Hotspur's tactical and recruitment profile. The long-term proposal uses FBref and Transfermarkt data across multiple leagues, but this draft narrows the scope to a reproducible multi-season Premier League dataset so the full workflow can be validated before the final submission.
 
-## Dataset Source
+The notebook builds a continuous `tottenham_fit_score`, profiles player archetypes with K-Means clustering, predicts fit with Random Forest regression, and ranks external players who look like strong Tottenham-style targets.
 
-- Dataset: Breast Cancer Wisconsin Diagnostic Dataset
-- Source: UCI Machine Learning Repository via `scikit-learn`
-- Local file in this repo: [data/breast_cancer_wisconsin.csv](/c:/Users/George/DTSProject/data/breast_cancer_wisconsin.csv)
-- Observations: 569
-- Predictors: 30 numeric feature columns
-- Target: `target` where `0 = malignant` and `1 = benign`
+## Dataset Source and Description
 
-Reference links:
-- UCI dataset page: https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic
-- scikit-learn dataset docs: https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_breast_cancer.html
+Draft dataset source:
+- Vaastav Anand, `Fantasy-Premier-League` GitHub repository
+- Repository: https://github.com/vaastav/Fantasy-Premier-League
+- Data dictionary: https://github.com/vaastav/Fantasy-Premier-League/blob/master/DATA_DICTIONARY.md
 
-## Repository Contents
+Local data files used in this repo:
+- [data/fpl_raw/2021-22/players_raw.csv](/c:/Users/George/DTSProject/data/fpl_raw/2021-22/players_raw.csv)
+- [data/fpl_raw/2022-23/players_raw.csv](/c:/Users/George/DTSProject/data/fpl_raw/2022-23/players_raw.csv)
+- [data/fpl_raw/2023-24/players_raw.csv](/c:/Users/George/DTSProject/data/fpl_raw/2023-24/players_raw.csv)
+- [data/fpl_raw/2024-25/players_raw.csv](/c:/Users/George/DTSProject/data/fpl_raw/2024-25/players_raw.csv)
+- Matching `teams.csv` files for each season are also included in `data/fpl_raw/`
 
-- [final_project_draft.ipynb](/c:/Users/George/DTSProject/final_project_draft.ipynb): main notebook for the draft submission
-- [data/breast_cancer_wisconsin.csv](/c:/Users/George/DTSProject/data/breast_cancer_wisconsin.csv): dataset used in the notebook
-- `data/dataset.csv`: original file already present in the repo; it is not used by the notebook
+Draft dataset scope:
+- 4 Premier League seasons: `2021-22` through `2024-25`
+- 1,625 outfield player-season observations after filtering for meaningful minutes
+- 20+ raw and engineered modeling features
+- Real-world player, team, performance, and price-proxy information
+
+Important draft note:
+- This version uses `now_cost` from FPL as an affordability proxy.
+- The final project is intended to expand back toward the original proposal by integrating FBref performance data and Transfermarkt market values across more leagues.
+
+## Project Files
+
+- [final_project_draft.ipynb](/c:/Users/George/DTSProject/final_project_draft.ipynb): main notebook with EDA, feature engineering, K-Means, Random Forest, comparison, and reflection
+- `data/fpl_raw/`: raw multi-season Premier League player and team data
 
 ## How to Run
 
-1. Create and activate a Python environment.
-2. Install the required packages:
+1. Create and activate a Python virtual environment.
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
+```
+
+2. Install the dependencies.
+
+```powershell
 pip install --upgrade pip
 pip install pandas numpy matplotlib seaborn scikit-learn jupyter
 ```
 
-3. Open the notebook:
+3. Launch Jupyter and open the notebook.
 
 ```powershell
 jupyter notebook
@@ -43,28 +59,30 @@ jupyter notebook
 
 ## Current Results Summary
 
-The current draft compares two classification models:
+The draft compares two proposal-aligned techniques:
+- K-Means clustering for player archetypes and cluster-based fit-score baseline predictions
+- Random Forest regression for direct Tottenham fit-score prediction
 
-- Random Forest Classifier
-- Logistic Regression
+Preliminary test-set results:
+- K-Means baseline: `RMSE = 14.7960`, `MAE = 11.9429`, `R2 = 0.5224`
+- Random Forest Regressor: `RMSE = 4.9568`, `MAE = 3.5753`, `R2 = 0.9464`
 
-Preliminary test-set results from the draft workflow:
-
-- Random Forest: accuracy `0.9474`, F1 `0.9583`, ROC AUC `0.9924`
-- Logistic Regression: accuracy `0.9825`, F1 `0.9861`, ROC AUC `0.9947`
-
-At the moment, Logistic Regression is the stronger draft model because it performs slightly better while also training faster. The notebook also includes a confusion matrix for each model and a learning curve for Random Forest to visualize training versus validation performance.
+Current takeaway:
+- Random Forest is the stronger predictive model for the draft.
+- K-Means is still valuable because it provides interpretable player archetypes and supports the tactical identity part of the proposal.
 
 ## Engineered Features in the Draft
 
-- `area_perimeter_ratio`
-- `radius_texture_interaction`
-- `smoothness_symmetry_product`
+- `goal_involvement_per90`
+- `creativity_threat_balance`
+- `bps_per90`
+- `availability_value_index`
 
-These features were added to capture tumor shape compactness, interactions between size and texture, and combined surface-pattern behavior.
+These features were designed to capture efficiency, player style balance, contribution quality, and affordability or availability trade-offs relevant to Spurs-style recruitment.
 
-## Next Steps
+## Next Steps for the Final Version
 
-- Add at least two more engineered features for the final submission
-- Tune model hyperparameters with cross-validation
-- Review whether recall or F1 should be emphasized most strongly for final evaluation
+- Add real market values from Transfermarkt instead of relying on the FPL cost proxy
+- Add FBref-style tactical features such as progression, defensive actions, and passing quality
+- Expand beyond the Premier League to better match the original multi-league recruitment proposal
+- Tune the Random Forest model and test more advanced supervised models
