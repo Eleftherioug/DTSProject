@@ -1,34 +1,70 @@
-# Final Project Draft — DTSProject
+# Final Project Draft: Breast Cancer Diagnosis Classification
 
-Project draft for the Unit 9 final project. This repository contains a Jupyter notebook (`final_project_draft.ipynb`) that loads and explores a dataset, engineers features, trains two ML models (Random Forest and Logistic Regression), and compares their performance.
+This project is a draft machine learning analysis for classifying breast tumors as malignant or benign. The notebook includes data loading, exploratory data analysis, three engineered features, preprocessing, two classification models, a model comparison table, visualizations, and reflection on next steps.
 
-Dataset
-- Place your dataset as `data/dataset.csv`. If this file is missing or empty the notebook will generate a synthetic demo dataset so you can run the pipeline end-to-end.
+## Dataset Source
 
-How to run
-1. Create a Python environment (recommended) and install dependencies:
+- Dataset: Breast Cancer Wisconsin Diagnostic Dataset
+- Source: UCI Machine Learning Repository via `scikit-learn`
+- Local file in this repo: [data/breast_cancer_wisconsin.csv](/c:/Users/George/DTSProject/data/breast_cancer_wisconsin.csv)
+- Observations: 569
+- Predictors: 30 numeric feature columns
+- Target: `target` where `0 = malignant` and `1 = benign`
+
+Reference links:
+- UCI dataset page: https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic
+- scikit-learn dataset docs: https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_breast_cancer.html
+
+## Repository Contents
+
+- [final_project_draft.ipynb](/c:/Users/George/DTSProject/final_project_draft.ipynb): main notebook for the draft submission
+- [data/breast_cancer_wisconsin.csv](/c:/Users/George/DTSProject/data/breast_cancer_wisconsin.csv): dataset used in the notebook
+- `data/dataset.csv`: original file already present in the repo; it is not used by the notebook
+
+## How to Run
+
+1. Create and activate a Python environment.
+2. Install the required packages:
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1   # PowerShell
+.\.venv\Scripts\Activate.ps1
 pip install --upgrade pip
-pip install pandas numpy scikit-learn matplotlib seaborn
+pip install pandas numpy matplotlib seaborn scikit-learn jupyter
 ```
 
-2. Open the repository in VS Code and launch Jupyter, or run the notebook:
+3. Open the notebook:
 
 ```powershell
-code .
-# In VS Code: open final_project_draft.ipynb and run cells
-# Or run jupyter notebook / jupyter lab and open the notebook
+jupyter notebook
 ```
 
-Current results summary
-- Notebook implements: data loading + EDA, 3 engineered features (interaction, ratio, binned), preprocessing, `RandomForestClassifier` and `LogisticRegression` implementations, performance comparison table, and a learning curve for Random Forest.
-- Replace `data/dataset.csv` with your chosen dataset to evaluate real results for your project.
+4. Open `final_project_draft.ipynb` and run the cells from top to bottom.
 
-Next steps
-- Add more engineered features (target: 5+ for final submission), perform hyperparameter tuning, and consider advanced models (XGBoost/LightGBM) depending on results.
+## Current Results Summary
 
-Contact / Notes
-- This draft is intended to be iterated on before the final submission. See `final_project_draft.ipynb` for details and inline discussion.
+The current draft compares two classification models:
+
+- Random Forest Classifier
+- Logistic Regression
+
+Preliminary test-set results from the draft workflow:
+
+- Random Forest: accuracy `0.9474`, F1 `0.9583`, ROC AUC `0.9924`
+- Logistic Regression: accuracy `0.9825`, F1 `0.9861`, ROC AUC `0.9947`
+
+At the moment, Logistic Regression is the stronger draft model because it performs slightly better while also training faster. The notebook also includes a confusion matrix for each model and a learning curve for Random Forest to visualize training versus validation performance.
+
+## Engineered Features in the Draft
+
+- `area_perimeter_ratio`
+- `radius_texture_interaction`
+- `smoothness_symmetry_product`
+
+These features were added to capture tumor shape compactness, interactions between size and texture, and combined surface-pattern behavior.
+
+## Next Steps
+
+- Add at least two more engineered features for the final submission
+- Tune model hyperparameters with cross-validation
+- Review whether recall or F1 should be emphasized most strongly for final evaluation
